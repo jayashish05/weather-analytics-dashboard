@@ -42,12 +42,57 @@ const LocationWeather = () => {
         }
       },
       (error) => {
+        // If high accuracy fails, try with lower accuracy as fallback
+        if (error.code === error.POSITION_UNAVAILABLE) {
+          navigator.geolocation.getCurrentPosition(
+            async (position) => {
+              const coords = {
+                lat: position.coords.latitude,
+                lon: position.coords.longitude,
+              };
+              setCoordinates(coords);
+              setLocationEnabled(true);
+              setLocationError(null);
+              
+              try {
+                const result = await dispatch(fetchCurrentWeather({
+                  lat: coords.lat,
+                  lon: coords.lon,
+                })).unwrap();
+                setLocationWeather(result.data);
+              } catch (err) {
+                setLocationError('Weather data unavailable for your location.');
+              }
+            },
+            (fallbackError) => {
+              switch (fallbackError.code) {
+                case fallbackError.PERMISSION_DENIED:
+                  setLocationError('Location permission denied. Please allow location access in your browser settings.');
+                  break;
+                case fallbackError.POSITION_UNAVAILABLE:
+                  setLocationError('Unable to determine your location. Location services may be unavailable.');
+                  break;
+                case fallbackError.TIMEOUT:
+                  setLocationError('Location request timed out. Please try again.');
+                  break;
+                default:
+                  setLocationError('Unable to get your location. Please try again later.');
+                  break;
+              }
+              setLocationEnabled(false);
+            },
+            {
+              enableHighAccuracy: false,
+              timeout: 15000,
+              maximumAge: 300000, // Allow cached location up to 5 minutes
+            }
+          );
+          return;
+        }
+        
         switch (error.code) {
           case error.PERMISSION_DENIED:
             setLocationError('Location permission denied. Please allow location access in your browser settings.');
-            break;
-          case error.POSITION_UNAVAILABLE:
-            setLocationError('Unable to determine your location. Please check your device settings or try again.');
             break;
           case error.TIMEOUT:
             setLocationError('Location request timed out. Please try again.');
@@ -119,14 +164,21 @@ const LocationWeather = () => {
         </div>
 
         {locationError && (
-          <div className="mb-4 p-3 bg-red-500/20 border border-red-300/30 rounded-lg">
-            <p className="text-sm">{locationError}</p>
+          <div className="mb-4 p-4 bg-red-500/20 border border-red-300/30 rounded-lg">
+            <p className="text-sm font-semibold mb-2">⚠️ {locationError}</p>
+            <div className="text-xs space-y-1 text-blue-100">
+              <p>• Make sure location services are enabled on your device</p>
+              <p>• Check browser permissions for this site</p>
+              <p>• Try using a different browser (Chrome/Firefox recommended)</p>
+              <p>• If using mobile, ensure GPS is turned on</p>
+            </div>
           </div>
         )}
 
         <button
           onClick={getCurrentLocation}
-          className="w-full bg-white text-blue-600 font-semibold py-3 px-4 rounded-lg hover:bg-blue-50 transition duration-200 flex items-center justify-center gap-2"
+          disabled={loading}
+          className="w-full bg-white text-blue-600 font-semibold py-3 px-4 rounded-lg hover:bg-blue-50 transition duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <svg
             className="w-5 h-5"
