@@ -5,12 +5,8 @@ const loadFavorites = () => {
   try {
     const serialized = localStorage.getItem('favorites');
     if (serialized === null) {
-      // Default cities if none saved
-      return [
-        { name: 'London', country: 'GB', lat: 51.5074, lon: -0.1278 },
-        { name: 'New York', country: 'US', lat: 40.7128, lon: -74.0060 },
-        { name: 'Tokyo', country: 'JP', lat: 35.6762, lon: 139.6503 }
-      ];
+      // Start with empty favorites - user adds their own
+      return [];
     }
     return JSON.parse(serialized);
   } catch (err) {

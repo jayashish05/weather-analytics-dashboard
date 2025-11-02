@@ -7,6 +7,7 @@ import {
   fetchHourlyForecast,
 } from '../features/weatherSlice';
 import { addFavorite, removeFavorite } from '../features/favoritesSlice';
+import { addRecentSearch } from '../features/recentSearchesSlice';
 import { getTemperatureValue } from '../utils/unitConversion';
 import { getWeatherIcon } from '../utils/weatherHelpers';
 import { formatDate } from '../utils/dateFormat';
@@ -45,6 +46,18 @@ const CityDetailsPage = () => {
 
     return () => clearInterval(interval);
   }, [dispatch, decodedCityName]);
+
+  // Add city to recent searches when weather data is loaded
+  useEffect(() => {
+    if (currentWeather) {
+      dispatch(addRecentSearch({
+        name: decodedCityName,
+        country: currentWeather.sys?.country || 'Unknown',
+        lat: currentWeather.coord?.lat,
+        lon: currentWeather.coord?.lon,
+      }));
+    }
+  }, [currentWeather, decodedCityName, dispatch]);
 
   const handleToggleFavorite = () => {
     if (isFavorite) {

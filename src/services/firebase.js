@@ -16,7 +16,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
+// Configure Google Provider
 const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
+  prompt: 'select_account'
+});
 
 // Google Sign In
 export const signInWithGoogle = async () => {
@@ -25,6 +30,14 @@ export const signInWithGoogle = async () => {
     return result.user;
   } catch (error) {
     console.error('Error signing in with Google:', error);
+    // Handle specific Firebase auth errors
+    if (error.code === 'auth/popup-closed-by-user') {
+      throw new Error('Sign-in popup was closed. Please try again.');
+    } else if (error.code === 'auth/unauthorized-domain') {
+      throw new Error('This domain is not authorized. Please contact the administrator.');
+    } else if (error.code === 'auth/popup-blocked') {
+      throw new Error('Popup was blocked by browser. Please allow popups and try again.');
+    }
     throw error;
   }
 };

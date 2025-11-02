@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { searchCitiesThunk, clearSearchResults } from '../../features/weatherSlice';
-import { addRecentSearch } from '../../features/recentSearchesSlice';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
   const [showResults, setShowResults] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const searchResults = useSelector((state) => state.weather.searchResults);
   const loading = useSelector((state) => state.weather.loading);
 
@@ -24,7 +25,8 @@ const SearchBar = () => {
   };
 
   const handleSelectCity = (city) => {
-    dispatch(addRecentSearch(city));
+    // Navigate to city details - recent search will be added there
+    navigate(`/city/${city.name}`);
     setQuery('');
     setShowResults(false);
     dispatch(clearSearchResults());

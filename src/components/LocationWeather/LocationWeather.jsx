@@ -44,18 +44,19 @@ const LocationWeather = () => {
       (error) => {
         switch (error.code) {
           case error.PERMISSION_DENIED:
-            setLocationError('Location permission denied. Please enable location access.');
+            setLocationError('Location permission denied. Please allow location access in your browser settings.');
             break;
           case error.POSITION_UNAVAILABLE:
-            setLocationError('Location information is unavailable.');
+            setLocationError('Unable to determine your location. Please check your device settings or try again.');
             break;
           case error.TIMEOUT:
-            setLocationError('Location request timed out.');
+            setLocationError('Location request timed out. Please try again.');
             break;
           default:
-            setLocationError('An unknown error occurred.');
+            setLocationError('Unable to get your location. Please try again later.');
             break;
         }
+        setLocationEnabled(false);
       },
       {
         enableHighAccuracy: true,
