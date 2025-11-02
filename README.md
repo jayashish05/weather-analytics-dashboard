@@ -190,63 +190,62 @@ Developed as part of the **TapTalent.ai** internship technical assignment, demon
 
 ## 📁 Project Structure
 
-\`\`\`
-my-app/
-├── public/
-│   ├── index.html
-│   ├── manifest.json
-│   └── robots.txt
-├── src/
-│   ├── components/
-│   │   ├── AuthButton/
-│   │   │   └── AuthButton.jsx              # Google Sign-In button
-│   │   ├── CityCard/
-│   │   │   └── CityCard.jsx                # Weather card with metrics
-│   │   ├── Dashboard/
-│   │   │   └── Dashboard.jsx               # 3-section dashboard layout
-│   │   ├── HistoricalTrends/
-│   │   │   └── HistoricalTrends.jsx        # Weather pattern analysis
-│   │   ├── LocationWeather/
-│   │   │   └── LocationWeather.jsx         # Current location weather
-│   │   ├── SearchBar/
-│   │   │   └── SearchBar.jsx               # City search with autocomplete
-│   │   ├── SettingsToggle/
-│   │   │   └── SettingsToggle.jsx          # Celsius/Fahrenheit toggle
-│   │   └── WeatherChart/
-│   │       ├── TemperatureChart.jsx        # Hourly temp line chart
-│   │       ├── PrecipitationChart.jsx      # Precipitation bar chart
-│   │       ├── WindChart.jsx               # Wind speed/direction chart
-│   │       └── DailyForecastChart.jsx      # 5-day forecast area chart
-│   ├── features/
-│   │   ├── authSlice.js                    # Authentication state
-│   │   ├── favoritesSlice.js               # Favorite cities management
-│   │   ├── recentSearchesSlice.js          # Recent searches tracking
-│   │   ├── settingsSlice.js                # User preferences
-│   │   └── weatherSlice.js                 # Weather data & async thunks
-│   ├── pages/
-│   │   ├── CityDetailsPage.jsx             # Detailed analytics page
-│   │   └── DashboardPage.jsx               # Main dashboard page
-│   ├── services/
-│   │   ├── firebase.js                     # Firebase config & Firestore
-│   │   └── weatherAPI.js                   # OpenWeatherMap integration
-│   ├── utils/
-│   │   ├── dateFormat.js                   # Date formatting utilities
-│   │   ├── unitConversion.js               # Temperature conversion
-│   │   └── weatherHelpers.js               # Weather icons & helpers
-│   ├── App.js                              # Main app with routing & auth
-│   ├── App.css
-│   ├── index.js                            # React entry point
-│   ├── index.css                           # Tailwind CSS imports
-│   └── store.js                            # Redux store configuration
-├── .env                                    # Environment variables
-├── .gitignore
-├── package.json                            # Dependencies & scripts
-├── tailwind.config.js                      # Tailwind configuration
-├── postcss.config.js                       # PostCSS configuration
-├── render.yaml                             # Render deployment config
-├── DEPLOYMENT.md                           # Deployment instructions
-└── README.md
-\`\`\`
+```
+weather-analytics-dashboard/
+|-- public/
+|   |-- index.html
+|   |-- manifest.json
+|   `-- robots.txt
+|-- src/
+|   |-- components/
+|   |   |-- AuthButton/
+|   |   |   `-- AuthButton.jsx              # Google Sign-In button
+|   |   |-- CityCard/
+|   |   |   `-- CityCard.jsx                # Weather card with metrics
+|   |   |-- Dashboard/
+|   |   |   `-- Dashboard.jsx               # 3-section dashboard layout
+|   |   |-- HistoricalTrends/
+|   |   |   `-- HistoricalTrends.jsx        # Weather pattern analysis
+|   |   |-- LocationWeather/
+|   |   |   `-- LocationWeather.jsx         # Current location weather
+|   |   |-- SearchBar/
+|   |   |   `-- SearchBar.jsx               # City search with autocomplete
+|   |   |-- SettingsToggle/
+|   |   |   `-- SettingsToggle.jsx          # Celsius/Fahrenheit toggle
+|   |   `-- WeatherChart/
+|   |       |-- TemperatureChart.jsx        # Hourly temp line chart
+|   |       |-- PrecipitationChart.jsx      # Precipitation bar chart
+|   |       |-- WindChart.jsx               # Wind speed/direction chart
+|   |       `-- DailyForecastChart.jsx      # 5-day forecast area chart
+|   |-- features/
+|   |   |-- authSlice.js                    # Authentication state
+|   |   |-- favoritesSlice.js               # Favorite cities management
+|   |   |-- recentSearchesSlice.js          # Recent searches tracking
+|   |   |-- settingsSlice.js                # User preferences
+|   |   `-- weatherSlice.js                 # Weather data & async thunks
+|   |-- pages/
+|   |   |-- CityDetailsPage.jsx             # Detailed analytics page
+|   |   `-- DashboardPage.jsx               # Main dashboard page
+|   |-- services/
+|   |   |-- firebase.js                     # Firebase config & Firestore
+|   |   `-- weatherAPI.js                   # OpenWeatherMap integration
+|   |-- utils/
+|   |   |-- dateFormat.js                   # Date formatting utilities
+|   |   |-- unitConversion.js               # Temperature conversion
+|   |   `-- weatherHelpers.js               # Weather icons & helpers
+|   |-- App.js                              # Main app with routing & auth
+|   |-- App.css
+|   |-- index.js                            # React entry point
+|   |-- index.css                           # Tailwind CSS imports
+|   `-- store.js                            # Redux store configuration
+|-- .env                                    # Environment variables
+|-- .gitignore
+|-- package.json                            # Dependencies & scripts
+|-- tailwind.config.js                      # Tailwind configuration
+|-- postcss.config.js                       # PostCSS configuration
+|-- render.yaml                             # Render deployment config
+`-- README.md
+```
 
 ---
 
@@ -668,65 +667,6 @@ This creates an optimized production build in the `build` folder.
 3. Enable Authentication → Google Sign-In
 4. Add a web app
 5. Copy configuration values
-
----
-
-## 📁 Project Structure
-
-```
-my-app/
-├── public/
-│   ├── index.html
-│   ├── manifest.json
-│   └── robots.txt
-├── src/
-│   ├── components/
-│   │   ├── AuthButton/
-│   │   │   └── AuthButton.jsx
-│   │   ├── CityCard/
-│   │   │   └── CityCard.jsx
-│   │   ├── Dashboard/
-│   │   │   └── Dashboard.jsx
-│   │   ├── HistoricalTrends/
-│   │   │   └── HistoricalTrends.jsx
-│   │   ├── LocationWeather/
-│   │   │   └── LocationWeather.jsx
-│   │   ├── SearchBar/
-│   │   │   └── SearchBar.jsx
-│   │   ├── SettingsToggle/
-│   │   │   └── SettingsToggle.jsx
-│   │   └── WeatherChart/
-│   │       ├── TemperatureChart.jsx
-│   │       ├── PrecipitationChart.jsx
-│   │       ├── WindChart.jsx
-│   │       └── DailyForecastChart.jsx
-│   ├── features/
-│   │   ├── authSlice.js
-│   │   ├── favoritesSlice.js
-│   │   ├── settingsSlice.js
-│   │   └── weatherSlice.js
-│   ├── pages/
-│   │   ├── CityDetailsPage.jsx
-│   │   └── DashboardPage.jsx
-│   ├── services/
-│   │   ├── firebase.js
-│   │   └── weatherAPI.js
-│   ├── utils/
-│   │   ├── dateFormat.js
-│   │   ├── unitConversion.js
-│   │   └── weatherHelpers.js
-│   ├── App.js
-│   ├── App.css
-│   ├── index.js
-│   ├── index.css
-│   └── store.js
-├── .env
-├── .gitignore
-├── package.json
-├── tailwind.config.js
-├── postcss.config.js
-└── README.md
-```
 
 ---
 
