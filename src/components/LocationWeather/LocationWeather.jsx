@@ -14,6 +14,51 @@ const LocationWeather = () => {
   const [coordinates, setCoordinates] = useState(null);
   const [isGettingLocation, setIsGettingLocation] = useState(false);
 
+  // Fallback: Get location using IP address
+  const getLocationByIP = async () => {
+    console.log('� Trying IP-based location as fallback...');
+    try {
+      const response = await fetch('https://ipapi.co/json/');
+      const data = await response.json();
+      
+      if (data.latitude && data.longitude) {
+        console.log('✅ IP location received:', data);
+        const coords = {
+          lat: data.latitude,
+          lon: data.longitude,
+        };
+        
+        setCoordinates(coords);
+        setLocationEnabled(true);
+        setLocationError(null);
+        
+        console.log('📡 Fetching weather for IP location:', coords);
+        
+        try {
+          const result = await dispatch(fetchCurrentWeather({
+            lat: coords.lat,
+            lon: coords.lon,
+          })).unwrap();
+          
+          console.log('✅ Weather data received:', result.data);
+          setLocationWeather(result.data);
+          setIsGettingLocation(false);
+        } catch (error) {
+          console.error('❌ Weather fetch error:', error);
+          setLocationError('Unable to fetch weather data. Please try again.');
+          setIsGettingLocation(false);
+        }
+      } else {
+        throw new Error('Invalid IP location data');
+      }
+    } catch (error) {
+      console.error('❌ IP location failed:', error);
+      setLocationError('Unable to determine location. Please search for your city manually.');
+      setIsGettingLocation(false);
+      setLocationEnabled(false);
+    }
+  };
+
   const getCurrentLocation = () => {
     console.log('🌍 Button clicked - requesting location...');
     setLocationError(null);
@@ -21,9 +66,8 @@ const LocationWeather = () => {
     
     // Check if geolocation is supported
     if (!navigator.geolocation) {
-      console.error('❌ Geolocation not supported');
-      setLocationError('Geolocation is not supported by your browser');
-      setIsGettingLocation(false);
+      console.error('❌ Geolocation not supported, trying IP location...');
+      getLocationByIP();
       return;
     }
 
@@ -61,40 +105,15 @@ const LocationWeather = () => {
         }
       },
       (error) => {
-        console.error('❌ Location error:', error);
-        setIsGettingLocation(false);
+        console.error('❌ Browser geolocation failed:', error);
+        console.log('🔄 Falling back to IP-based location...');
         
-        let errorMessage = '';
-        let helpInstructions = '';
-        
-        switch (error.code) {
-          case 1: // PERMISSION_DENIED
-            errorMessage = '🔒 Location permission denied';
-            helpInstructions = 'Click the lock icon in your address bar and allow location access.';
-            console.error('Permission denied');
-            break;
-          case 2: // POSITION_UNAVAILABLE
-            errorMessage = '📍 Location services unavailable';
-            helpInstructions = 'macOS: System Settings → Security & Privacy → Location Services → Enable for your browser (Chrome/Safari/Firefox)';
-            console.error('Position unavailable - Check macOS Location Services');
-            break;
-          case 3: // TIMEOUT
-            errorMessage = '⏱️ Location request timed out';
-            helpInstructions = 'Please try again. Make sure WiFi or cellular data is enabled.';
-            console.error('Timeout');
-            break;
-          default:
-            errorMessage = '❌ Unable to get your location';
-            helpInstructions = 'Try searching for your city manually instead.';
-            console.error('Unknown error');
-        }
-        
-        setLocationError(`${errorMessage}. ${helpInstructions}`);
-        setLocationEnabled(false);
+        // Automatically fallback to IP-based location
+        getLocationByIP();
       },
       {
         enableHighAccuracy: false,
-        timeout: 20000,
+        timeout: 10000,
         maximumAge: 300000,
       }
     );
