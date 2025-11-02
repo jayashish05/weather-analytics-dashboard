@@ -455,6 +455,8 @@ After deploying, add your Render domain to Firebase:
 
 <img width="1470" height="956" alt="Screenshot 2025-11-02 at 11 19 12 PM" src="https://github.com/user-attachments/assets/91da58ea-2ad2-42ec-aec1-1897149dc9dc" />
 
+---
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please follow these steps:
