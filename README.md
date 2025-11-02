@@ -26,10 +26,8 @@
 - [Getting Started](#-getting-started)
 - [Environment Variables](#-environment-variables)
 - [Project Structure](#-project-structure)
-- [Deployment](#-deployment-to-render)
 - [Features Breakdown](#-features-breakdown)
 - [API Integration](#-api-integration)
-- [Firebase Setup](#-firebase-setup)
 - [Assignment Requirements](#-assignment-requirements)
 - [Screenshots](#-screenshots)
 - [Contributing](#-contributing)
@@ -442,6 +440,20 @@ After deploying, add your Render domain to Firebase:
 4. Stay signed in after refresh
 
 ---
+
+## Sreenshots
+
+<img width="1470" height="956" alt="Screenshot 2025-11-02 at 11 17 48 PM" src="https://github.com/user-attachments/assets/47e5b655-d526-4fc6-aa21-17b08be9d246" />
+
+<img width="1470" height="956" alt="Screenshot 2025-11-02 at 11 18 14 PM" src="https://github.com/user-attachments/assets/25c69579-ffa2-4ad2-bc43-16eeafebeaf5" />
+
+<img width="1470" height="956" alt="Screenshot 2025-11-02 at 11 18 30 PM" src="https://github.com/user-attachments/assets/20ac92be-5499-48be-a838-ae1240ce031f" />
+
+<img width="1470" height="956" alt="Screenshot 2025-11-02 at 11 18 40 PM" src="https://github.com/user-attachments/assets/2d6f2b4a-35fa-43bd-9d2d-4a4d0946ef81" />
+
+<img width="1470" height="956" alt="Screenshot 2025-11-02 at 11 18 54 PM" src="https://github.com/user-attachments/assets/60dfc39f-d4a2-406b-a523-3143fb33a941" />
+
+<img width="1470" height="956" alt="Screenshot 2025-11-02 at 11 19 12 PM" src="https://github.com/user-attachments/assets/91da58ea-2ad2-42ec-aec1-1897149dc9dc" />
 
 ## 🤝 Contributing
 
