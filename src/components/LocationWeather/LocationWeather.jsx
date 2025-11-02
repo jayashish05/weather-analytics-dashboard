@@ -21,6 +21,7 @@ const LocationWeather = () => {
       return;
     }
 
+    // Try with low accuracy first (faster and more reliable)
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const coords = {
@@ -29,6 +30,7 @@ const LocationWeather = () => {
         };
         setCoordinates(coords);
         setLocationEnabled(true);
+        setLocationError(null);
         
         // Fetch weather for current location
         try {
@@ -38,75 +40,30 @@ const LocationWeather = () => {
           })).unwrap();
           setLocationWeather(result.data);
         } catch (error) {
-          setLocationError(error);
+          setLocationError('Unable to fetch weather data. Please try again.');
         }
       },
       (error) => {
-        // If high accuracy fails, try with lower accuracy as fallback
-        if (error.code === error.POSITION_UNAVAILABLE) {
-          navigator.geolocation.getCurrentPosition(
-            async (position) => {
-              const coords = {
-                lat: position.coords.latitude,
-                lon: position.coords.longitude,
-              };
-              setCoordinates(coords);
-              setLocationEnabled(true);
-              setLocationError(null);
-              
-              try {
-                const result = await dispatch(fetchCurrentWeather({
-                  lat: coords.lat,
-                  lon: coords.lon,
-                })).unwrap();
-                setLocationWeather(result.data);
-              } catch (err) {
-                setLocationError('Weather data unavailable for your location.');
-              }
-            },
-            (fallbackError) => {
-              switch (fallbackError.code) {
-                case fallbackError.PERMISSION_DENIED:
-                  setLocationError('Location permission denied. Please allow location access in your browser settings.');
-                  break;
-                case fallbackError.POSITION_UNAVAILABLE:
-                  setLocationError('Unable to determine your location. Location services may be unavailable.');
-                  break;
-                case fallbackError.TIMEOUT:
-                  setLocationError('Location request timed out. Please try again.');
-                  break;
-                default:
-                  setLocationError('Unable to get your location. Please try again later.');
-                  break;
-              }
-              setLocationEnabled(false);
-            },
-            {
-              enableHighAccuracy: false,
-              timeout: 15000,
-              maximumAge: 300000, // Allow cached location up to 5 minutes
-            }
-          );
-          return;
-        }
-        
         switch (error.code) {
           case error.PERMISSION_DENIED:
             setLocationError('Location permission denied. Please allow location access in your browser settings.');
             break;
+          case error.POSITION_UNAVAILABLE:
+            setLocationError('Location services unavailable. Please check your device settings.');
+            break;
           case error.TIMEOUT:
-            setLocationError('Location request timed out. Please try again.');
+            setLocationError('Location request timed out. Please check your connection and try again.');
             break;
           default:
-            setLocationError('Unable to get your location. Please try again later.');
+            setLocationError('Unable to get your location. Please try again.');
             break;
         }
         setLocationEnabled(false);
       },
       {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0,
+        enableHighAccuracy: false, // Use network-based location (faster and more reliable)
+        timeout: 30000, // 30 second timeout
+        maximumAge: 60000, // Allow cached location up to 1 minute
       }
     );
   };
