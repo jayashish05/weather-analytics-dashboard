@@ -11,7 +11,7 @@
 
 **Built for TapTalent.ai Internship Assignment**
 
-[Live Demo](https://your-app.onrender.com) • [Report Bug](https://github.com/yourusername/weather-dashboard/issues) • [Request Feature](https://github.com/yourusername/weather-dashboard/issues)
+[Live Demo](https://weather-analytics-dashboard-bfpf.onrender.com) • [Report Bug](https://github.com/jayashish05/weather-analytics-dashboard/issues) • [Request Feature](https://github.com/jayashish05/weather-analytics-dashboard/issues)
 
 </div>
 
