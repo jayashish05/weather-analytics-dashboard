@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchCitiesThunk, clearSearchResults } from '../../features/weatherSlice';
-import { addFavorite } from '../../features/favoritesSlice';
 import { addRecentSearch } from '../../features/recentSearchesSlice';
 
 const SearchBar = () => {
