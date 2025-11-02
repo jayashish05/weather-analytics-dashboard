@@ -190,7 +190,7 @@ Developed as part of the **TapTalent.ai** internship technical assignment, demon
 
 ## 📁 Project Structure
 
-```
+```bash
 my-app/
 ├── public/
 │   ├── index.html                      # Main HTML file
@@ -270,21 +270,21 @@ my-app/
 ### Installation Steps
 
 1. **Clone the repository**
-   \`\`\`bash
+   ```bash
    git clone https://github.com/yourusername/weather-analytics-dashboard.git
    cd weather-analytics-dashboard
-   \`\`\`
+   ```
 
 2. **Install dependencies**
-   \`\`\`bash
+   ```bash
    npm install
-   \`\`\`
+   ```
 
 3. **Set up environment variables**
    
-   Create a \`.env\` file in the root directory with:
+   Create a `.env` file in the root directory with:
    
-   \`\`\`env
+   ```bash
    # OpenWeatherMap API
    REACT_APP_OPENWEATHER_API_KEY=your_api_key_here
    
@@ -295,12 +295,12 @@ my-app/
    REACT_APP_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
    REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
    REACT_APP_FIREBASE_APP_ID=your_app_id
-   \`\`\`
+   ```
 
 4. **Start the development server**
-   \`\`\`bash
+   ```bash
    npm start
-   \`\`\`
+   ```
 
 5. **Open your browser**
    
@@ -308,11 +308,11 @@ my-app/
 
 ### Build for Production
 
-\`\`\`bash
+```bash
 npm run build
-\`\`\`
+```
 
-Creates an optimized production build in the \`build/\` directory.
+Creates an optimized production build in the `build/` directory.
 
 ---
 
@@ -354,11 +354,11 @@ Creates an optimized production build in the \`build/\` directory.
 ### Quick Deploy (Automated)
 
 1. **Push code to GitHub**
-   \`\`\`bash
+   ```bash
    git add .
    git commit -m "Ready for deployment"
    git push origin main
-   \`\`\`
+   ```
 
 2. **Create new Web Service on Render**
    - Go to https://dashboard.render.com/
@@ -368,8 +368,8 @@ Creates an optimized production build in the \`build/\` directory.
 3. **Configure service**
    - **Name**: weather-analytics-dashboard
    - **Environment**: Node
-   - **Build Command**: \`npm install && npm run build\`
-   - **Start Command**: \`npx serve -s build -l $PORT\`
+   - **Build Command**: `npm install && npm run build`
+   - **Start Command**: `npx serve -s build -l $PORT`
    - **Instance Type**: Free
 
 4. **Add environment variables**
@@ -395,7 +395,7 @@ After deploying, add your Render domain to Firebase:
 
 1. Firebase Console → Authentication → Settings
 2. Authorized domains → Add domain
-3. Add: \`your-app-name.onrender.com\`
+3. Add: `your-app-name.onrender.com`
 
 ### Deployment Checklist
 
@@ -443,43 +443,23 @@ After deploying, add your Render domain to Firebase:
 
 ---
 
-## ✅ Assignment Requirements
-
-### Core Requirements
-- ✅ **React with Hooks**: All components use functional components with useState, useEffect, useSelector, useDispatch
-- ✅ **Redux Toolkit**: Centralized state management with 4 slices (weather, favorites, settings, auth)
-- ✅ **Dashboard Page**: Multi-city weather display with real-time updates
-- ✅ **Detailed View**: Comprehensive analytics with 4+ chart types
-- ✅ **Search & Favorites**: City search with autocomplete and favorites management
-- ✅ **Settings**: Temperature unit toggle (Celsius/Fahrenheit)
-- ✅ **Real-time Data**: Auto-refresh every 60 seconds
-- ✅ **Recharts Integration**: 4 different chart types (Line, Bar, Area)
-
-### Bonus Features
-- ✅ **Google Authentication**: Firebase-based Google Sign-In
-- ✅ **Data Caching**: 60-second cache to reduce API calls
-- ✅ **Data Freshness**: Real-time validation ensuring data is never older than 60 seconds
-- ✅ **Location Weather**: Browser geolocation integration
-- ✅ **Historical Trends**: Weather pattern analysis
-
-### Technical Implementation
-- ✅ **Responsive Design**: Mobile-first Tailwind CSS
-- ✅ **Error Handling**: Comprehensive error states and user feedback
-- ✅ **Loading States**: Skeleton screens and spinners
-- ✅ **Code Organization**: Modular component structure
-- ✅ **Performance**: Optimized with caching and debouncing
-- ✅ **Production Build**: Optimized bundle size
-
----
-
 ## 🤝 Contributing
 
 Contributions are welcome! Please follow these steps:
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create a feature branch
+   ```bash
+   git checkout -b feature/AmazingFeature
+   ```
+3. Commit your changes
+   ```bash
+   git commit -m 'Add some AmazingFeature'
+   ```
+4. Push to the branch
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
 5. Open a Pull Request
 
 ---
@@ -508,44 +488,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [TapTalent.ai](https://taptalent.ai/) for the internship opportunity
 
 ---
-
-## 🔧 Configuration
-
-### Customization Options
-
-**Tailwind Config** (\`tailwind.config.js\`):
-\`\`\`javascript
-theme: {
-  extend: {
-    colors: {
-      primary: '#3B82F6',    // Customize primary color
-      secondary: '#10B981',   // Customize secondary color
-    },
-  },
-}
-\`\`\`
-
-**Cache Duration** (\`src/services/weatherAPI.js\`):
-\`\`\`javascript
-const CACHE_DURATION = 60 * 1000; // Change refresh interval
-\`\`\`
-
-## 📊 State Management
-
-### Redux Slices
-
-1. **weatherSlice**: Weather data, forecasts, search results
-2. **favoritesSlice**: Favorite cities list
-3. **settingsSlice**: User preferences (temperature unit)
-
-### Async Thunks
-
-- \`fetchCurrentWeather\`: Get current weather for a city
-- \`fetchForecast\`: Get 5-day forecast
-- \`fetchHourlyForecast\`: Get hourly forecast
-- \`searchCitiesThunk\`: Search for cities
-
-## 🐛 Troubleshooting
 
 ## ✅ Assignment Requirements Checklist
 
