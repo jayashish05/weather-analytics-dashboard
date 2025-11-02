@@ -12,25 +12,37 @@ const LocationWeather = () => {
   const [locationError, setLocationError] = useState(null);
   const [locationWeather, setLocationWeather] = useState(null);
   const [coordinates, setCoordinates] = useState(null);
+  const [isGettingLocation, setIsGettingLocation] = useState(false);
 
   const getCurrentLocation = () => {
+    console.log('🌍 Button clicked - requesting location...');
     setLocationError(null);
+    setIsGettingLocation(true);
     
+    // Check if geolocation is supported
     if (!navigator.geolocation) {
+      console.error('❌ Geolocation not supported');
       setLocationError('Geolocation is not supported by your browser');
+      setIsGettingLocation(false);
       return;
     }
 
-    // Try with low accuracy first (faster and more reliable)
+    console.log('✅ Geolocation is supported, requesting position...');
+
     navigator.geolocation.getCurrentPosition(
       async (position) => {
+        console.log('✅ Location received:', position.coords);
+        
         const coords = {
           lat: position.coords.latitude,
           lon: position.coords.longitude,
         };
+        
         setCoordinates(coords);
         setLocationEnabled(true);
         setLocationError(null);
+        
+        console.log('📡 Fetching weather for:', coords);
         
         // Fetch weather for current location
         try {
@@ -38,34 +50,56 @@ const LocationWeather = () => {
             lat: coords.lat,
             lon: coords.lon,
           })).unwrap();
+          
+          console.log('✅ Weather data received:', result.data);
           setLocationWeather(result.data);
+          setIsGettingLocation(false);
         } catch (error) {
+          console.error('❌ Weather fetch error:', error);
           setLocationError('Unable to fetch weather data. Please try again.');
+          setIsGettingLocation(false);
         }
       },
       (error) => {
+        console.error('❌ Location error:', error);
+        setIsGettingLocation(false);
+        
+        let errorMessage = '';
+        let helpInstructions = '';
+        
         switch (error.code) {
-          case error.PERMISSION_DENIED:
-            setLocationError('Location permission denied. Please allow location access in your browser settings.');
+          case 1: // PERMISSION_DENIED
+            errorMessage = '🔒 Location permission denied';
+            helpInstructions = 'Click the lock icon in your address bar and allow location access.';
+            console.error('Permission denied');
             break;
-          case error.POSITION_UNAVAILABLE:
-            setLocationError('Location services unavailable. Please check your device settings.');
+          case 2: // POSITION_UNAVAILABLE
+            errorMessage = '📍 Location services unavailable';
+            helpInstructions = 'macOS: System Settings → Security & Privacy → Location Services → Enable for your browser (Chrome/Safari/Firefox)';
+            console.error('Position unavailable - Check macOS Location Services');
             break;
-          case error.TIMEOUT:
-            setLocationError('Location request timed out. Please check your connection and try again.');
+          case 3: // TIMEOUT
+            errorMessage = '⏱️ Location request timed out';
+            helpInstructions = 'Please try again. Make sure WiFi or cellular data is enabled.';
+            console.error('Timeout');
             break;
           default:
-            setLocationError('Unable to get your location. Please try again.');
-            break;
+            errorMessage = '❌ Unable to get your location';
+            helpInstructions = 'Try searching for your city manually instead.';
+            console.error('Unknown error');
         }
+        
+        setLocationError(`${errorMessage}. ${helpInstructions}`);
         setLocationEnabled(false);
       },
       {
-        enableHighAccuracy: false, // Use network-based location (faster and more reliable)
-        timeout: 30000, // 30 second timeout
-        maximumAge: 60000, // Allow cached location up to 1 minute
+        enableHighAccuracy: false,
+        timeout: 20000,
+        maximumAge: 300000,
       }
     );
+    
+    console.log('⏳ Waiting for geolocation response...');
   };
 
   // Auto-refresh every 60 seconds
@@ -134,35 +168,44 @@ const LocationWeather = () => {
 
         <button
           onClick={getCurrentLocation}
-          disabled={loading}
+          disabled={isGettingLocation}
           className="w-full bg-white text-blue-600 font-semibold py-3 px-4 rounded-lg hover:bg-blue-50 transition duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-          </svg>
-          Enable Location
+          {isGettingLocation ? (
+            <>
+              <div className="animate-spin h-5 w-5 border-2 border-blue-600 border-t-transparent rounded-full"></div>
+              Getting Location...
+            </>
+          ) : (
+            <>
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              Enable Location
+            </>
+          )}
         </button>
       </div>
     );
   }
 
-  if (loading) {
+  if (loading || (isGettingLocation && locationEnabled)) {
     return (
       <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg p-6 text-white animate-pulse">
         <div className="flex items-center gap-3 mb-4">
@@ -173,6 +216,7 @@ const LocationWeather = () => {
           </div>
         </div>
         <div className="h-16 bg-white/20 rounded"></div>
+        <p className="text-center text-sm text-blue-100 mt-2">Loading weather data...</p>
       </div>
     );
   }
